@@ -2,6 +2,7 @@ package com.maneesha14w.movietracker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -15,26 +16,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registerMovie(View view) {
-        Toast.makeText(this, "Registered a Movie", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, RegisterMovie.class);
+        startActivity(intent);
     }
 
     public void displayMovie(View view) {
-
+        Intent intent = new Intent(this, RegisterMovie.class);
+        startActivity(intent);
     }
 
     public void seeFavorites(View view) {
-
+        Intent intent = new Intent(this, RegisterMovie.class);
+        startActivity(intent);
     }
 
     public void editMovies(View view) {
-
+        Intent intent = new Intent(this, RegisterMovie.class);
+        startActivity(intent);
     }
 
     public void seeRatings(View view) {
-
+        Intent intent = new Intent(this, RegisterMovie.class);
+        startActivity(intent);
     }
 
     public void search(View view) {
-
+        Intent intent = new Intent(this, RegisterMovie.class);
+        startActivity(intent);
     }
 }
