@@ -12,7 +12,7 @@
     <string name="year">Year</string>
     <string name="director_name">Director Name</string>
     <string name="actors">Actors/Actresses ( Separated by \' , \' )</string>
-    <string name="review">Review (2000 words)</string>
+    <string name="review">Your Review</string>
     <string name="save">Save</string>
 
     <string-array name="rating_array">
