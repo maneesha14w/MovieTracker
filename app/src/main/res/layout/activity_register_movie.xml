@@ -6,4 +6,125 @@
     android:layout_height="match_parent"
     tools:context=".RegisterMovie">
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/rubik_bold"
+        android:text="@string/register_movie"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/et_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/karla"
+        android:hint="@string/title"
+        android:inputType="textCapSentences"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <EditText
+        android:id="@+id/et_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/karla"
+        android:hint="@string/year"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_title"
+        android:maxLength="4"
+        />
+
+    <EditText
+        android:id="@+id/et_director"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="101dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginEnd="101dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/karla"
+        android:hint="@string/director_name"
+        android:inputType="textCapSentences"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_year" />
+
+
+    <EditText
+        android:id="@+id/et_actors"
+        android:layout_width="305dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/karla"
+        android:hint="@string/actors"
+        android:inputType="textCapWords"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_director" />
+
+    <Spinner
+        android:id="@+id/spin_rating"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_review" />
+
+    <EditText
+        android:id="@+id/et_review"
+        android:layout_width="350dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="54dp"
+        android:layout_weight="1"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/karla"
+        android:hint="@string/review"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="2000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_actors" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="@font/karla"
+        android:text="@string/save"
+        android:textColorHint="#FFFFFF"
+        app:backgroundTint="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spin_rating"
+        app:layout_constraintTop_toBottomOf="@+id/et_review" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,4 +8,25 @@
     <string name="search">Search</string>
     <string name="description">All your movies in one place!</string>
     <string name="logo">logo</string>
+    <string name="title">Title</string>
+    <string name="year">Year</string>
+    <string name="director_name">Director Name</string>
+    <string name="actors">Actors/Actresses ( Separated by \' , \' )</string>
+    <string name="review">Review (2000 words)</string>
+    <string name="save">Save</string>
+
+    <string-array name="rating_array">
+        <item>Rating</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
 </resources>
