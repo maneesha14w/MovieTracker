@@ -21,27 +21,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayMovie(View view) {
-        Intent intent = new Intent(this, RegisterMovie.class);
+        Intent intent = new Intent(this, DisplayMovie.class);
         startActivity(intent);
     }
 
     public void seeFavorites(View view) {
-        Intent intent = new Intent(this, RegisterMovie.class);
+        Intent intent = new Intent(this, Favorites.class);
         startActivity(intent);
     }
 
     public void editMovies(View view) {
-        Intent intent = new Intent(this, RegisterMovie.class);
+        Intent intent = new Intent(this, EditMovies.class);
         startActivity(intent);
     }
 
     public void seeRatings(View view) {
-        Intent intent = new Intent(this, RegisterMovie.class);
+        Intent intent = new Intent(this, Ratings.class);
         startActivity(intent);
     }
 
     public void search(View view) {
-        Intent intent = new Intent(this, RegisterMovie.class);
+        Intent intent = new Intent(this, Search.class);
         startActivity(intent);
     }
 }
