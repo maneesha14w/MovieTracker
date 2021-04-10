@@ -11,9 +11,10 @@
     <string name="title">Title</string>
     <string name="year">Year</string>
     <string name="director_name">Director Name</string>
-    <string name="actors">Actors/Actresses ( Separated by \' , \' )</string>
+    <string name="actors">Cast Members ( Separated by \' , \' )</string>
     <string name="review">Your Review</string>
     <string name="save">Save</string>
+    <string name="rating">Rating</string>
 
     <string-array name="rating_array">
         <item>Rating</item>
