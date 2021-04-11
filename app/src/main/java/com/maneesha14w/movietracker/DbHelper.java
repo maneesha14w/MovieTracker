@@ -83,7 +83,7 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
     }
 
     //edits the favorites column of the movie with id which are passed as params
-    public void updateFavorite(int id, String name) {
+    public void addToFavorite(int id, String name) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "UPDATE " +TABLE_NAME+ " SET " + COLUMN_FAVORITE + " = '" + 1 + "' WHERE " +COLUMN_ID+ " = '" +id+
                 "' AND " +COLUMN_TITLE+ " = '" +name+ "'";
@@ -96,5 +96,14 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " +TABLE_NAME+ " WHERE " +COLUMN_FAVORITE+ " = '" +1+ "'";
         return db.rawQuery(query, null);
+    }
+
+    public void removeFromFavorite(int id, String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " +TABLE_NAME+ " SET " + COLUMN_FAVORITE + " = '" + 0 + "' WHERE " +COLUMN_ID+ " = '" +id+
+                "' AND " +COLUMN_TITLE+ " = '" +name+ "' AND " + COLUMN_FAVORITE+ " = '" +1+ "'";
+        Log.d(TAG, "removeFavorite: query: " + query);
+        Log.d(TAG, "removeFavorite: Setting id to: "+ id);
+        db.execSQL(query);
     }
 }

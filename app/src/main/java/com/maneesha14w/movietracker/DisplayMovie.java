@@ -86,7 +86,7 @@ public class DisplayMovie extends AppCompatActivity {
 
             }
             //end of loop
-            String movieStr = ""; //display str
+            StringBuilder movieStr = new StringBuilder(); //display str
             for (String movie : movieList) { //loop through list of checked movies
                 //get id of passed movie
                 Cursor data = dbHelper.getId(movie);
@@ -96,8 +96,8 @@ public class DisplayMovie extends AppCompatActivity {
                     itemId = data.getInt(0); //get id
                     if (itemId > -1) {
                         Log.d(TAG, "addToFavorites: " + itemId + "\n");
-                        dbHelper.updateFavorite(itemId, movie); //updates favorites.
-                        movieStr += " " + movie + "\n";
+                        dbHelper.addToFavorite(itemId, movie); //updates favorites.
+                        movieStr.append(" ").append(movie).append("\n");
                     } else {
                         Toaster("No ID associated with that name");
                         Log.d(TAG, "addToFavorites: No ID associated with that name");
