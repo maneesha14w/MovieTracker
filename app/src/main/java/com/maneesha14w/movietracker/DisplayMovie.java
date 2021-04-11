@@ -50,6 +50,9 @@ public class DisplayMovie extends AppCompatActivity {
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, dataList);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); //checkbox setting
+//        for(int i = 0; i < adapter.getCount(); i++){
+//            listView.setItemChecked(i, true);
+//        }
 
     }
 
