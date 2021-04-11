@@ -1,8 +1,11 @@
 package com.maneesha14w.movietracker;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -38,5 +41,37 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
+    }
+
+    public void insertData(String title, int year, String director, String actors, int rating, String review) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(DbHelper.COLUMN_TITLE, title);
+        cv.put(DbHelper.COLUMN_YEAR, year);
+        cv.put(DbHelper.COLUMN_DIRECTOR, director);
+        cv.put(DbHelper.COLUMN_ACTORS, actors);
+        cv.put(DbHelper.COLUMN_RATING, rating);
+        cv.put(DbHelper.COLUMN_REVIEW, review);
+        cv.put(DbHelper.COLUMN_FAVORITE, 0);
+
+        long id = db.insert(DbHelper.TABLE_NAME, null, cv);
+        if (id == -1) {
+            Log.d("LOG", "insertData: failed");
+        } else {
+            Log.d("LOG", "insertData: was successful");
+        }
+    }
+
+    public Cursor getAllData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " +COLUMN_TITLE;
+        return db.rawQuery(query, null);
+    }
+
+    public Cursor getId(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " +COLUMN_ID+ " FROM " +TABLE_NAME+ " WHERE " +COLUMN_TITLE+ " = '" +name+ "'";
+        return db.rawQuery(query, null);
     }
 }

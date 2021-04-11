@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,9 +15,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class RegisterMovie extends AppCompatActivity {
-    private EditText et_title, et_year,  et_director, et_actors, et_review, et_rating;
-    private SQLiteOpenHelper openHelper;
-    private SQLiteDatabase db;
+    private EditText et_title, et_year, et_director, et_actors, et_review, et_rating;
+    private DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +29,12 @@ public class RegisterMovie extends AppCompatActivity {
         et_actors = findViewById(R.id.et_actors);
         et_review = findViewById(R.id.et_review);
         et_rating = findViewById(R.id.et_rating);
-
-
     }
 
+    //save btn click method
     public void saveMovie(View view) {
 
-        openHelper = new DbHelper(this);
+        dbHelper = new DbHelper(this);
 
 
         String title = et_title.getText().toString().trim();
@@ -52,8 +51,7 @@ public class RegisterMovie extends AppCompatActivity {
                 et_year.getText().clear();
                 proceedToInsert = false;
             }
-        }
-        catch (Exception e)  {
+        } catch (Exception e) {
             proceedToInsert = false;
         }
 
@@ -64,47 +62,19 @@ public class RegisterMovie extends AppCompatActivity {
                 et_rating.getText().clear();
                 proceedToInsert = false;
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             proceedToInsert = false;
         }
 
 
         if (title.isEmpty() || director.isEmpty() || actors.isEmpty() || review.isEmpty() || et_year.getText().toString().isEmpty() || et_rating.getText().toString().isEmpty()) {
             Toast.makeText(this, "Please make sure all fields are entered!", Toast.LENGTH_SHORT).show();
-        }
-        else if (!proceedToInsert) {
+        } else if (!proceedToInsert) {
 
-        }
-        else {
-            db = openHelper.getWritableDatabase();
-            insertData(title, year, director, actors, rating, review);
-            Toast.makeText(this, title  +" ( "+ year +" )" + " has been added successfully!", Toast.LENGTH_SHORT).show();
+        } else {
+            dbHelper.insertData(title, year, director, actors, rating, review);
+            Toast.makeText(this, title + " ( " + year + " )" + " has been added successfully!", Toast.LENGTH_SHORT).show();
         }
     }
-
-    public void insertData(String title, int year, String director, String actors,int rating, String review) {
-        ContentValues cv = new ContentValues();
-        cv.put(DbHelper.COLUMN_TITLE, title);
-        cv.put(DbHelper.COLUMN_YEAR, year);
-        cv.put(DbHelper.COLUMN_DIRECTOR, director);
-        cv.put(DbHelper.COLUMN_ACTORS, actors);
-        cv.put(DbHelper.COLUMN_RATING, rating);
-        cv.put(DbHelper.COLUMN_REVIEW, review);
-        cv.put(DbHelper.COLUMN_FAVORITE, 0);
-
-        long id = db.insert(DbHelper.TABLE_NAME, null, cv);
-    }
-
-    //    @Override
-//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        try {
-//            int rating = (Integer) parent.getItemAtPosition(position);
-//        }
-//        catch (Exception e) {
-//            Toast.makeText(this, "Please Select a proper Rating!", Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
 
 }

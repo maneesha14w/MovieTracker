@@ -15,6 +15,8 @@
     <string name="review">Your Review</string>
     <string name="save">Save</string>
     <string name="rating">Rating</string>
+    <string name="add_to_favorites">Add to Favorites</string>
+    <string name="done">Done</string>
 
     <string-array name="rating_array">
         <item>Rating</item>

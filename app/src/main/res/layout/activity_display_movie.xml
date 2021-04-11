@@ -6,4 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".DisplayMovie">
 
+    <ListView
+        android:id="@+id/lv_movies"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="34dp"
+        android:divider="@color/grey"
+        android:dividerHeight="2dp"
+        android:listSelector="@color/white"
+        android:choiceMode="multipleChoice"
+        app:layout_constraintBottom_toTopOf="@+id/btn_addFavorites"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_addFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="50dp"
+        android:text="@string/add_to_favorites"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="addToFavorites"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
