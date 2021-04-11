@@ -15,7 +15,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class RegisterMovie extends AppCompatActivity {
+    //ui vars
     private EditText et_title, et_year, et_director, et_actors, et_review, et_rating;
+    //dbHelper obj
     private DbHelper dbHelper;
 
     @Override
@@ -41,13 +43,14 @@ public class RegisterMovie extends AppCompatActivity {
         String director = et_director.getText().toString().trim();
         String actors = et_actors.getText().toString().trim();
         String review = et_review.getText().toString().trim();
-        boolean proceedToInsert = true;
+        boolean proceedToInsert = true; //bool flag on when to show toasts and if true by the end no errors
 
         int year = 0, rating = 0;
+
         try {
-            year = Integer.parseInt(et_year.getText().toString().trim());
+            year = Integer.parseInt(et_year.getText().toString().trim()); // if error in parsing flag is enabled
             if (year < 1895) {
-                Toast.makeText(this, "Movie cannot be made before the year 1895", Toast.LENGTH_SHORT).show();
+                Toaster("Movie cannot be made before the year 1895");
                 et_year.getText().clear();
                 proceedToInsert = false;
             }
@@ -56,9 +59,9 @@ public class RegisterMovie extends AppCompatActivity {
         }
 
         try {
-            rating = Integer.parseInt(et_rating.getText().toString().trim());
+            rating = Integer.parseInt(et_rating.getText().toString().trim()); // if error in parsing flag is enabled
             if (rating < 1 || rating > 10) {
-                Toast.makeText(this, "Rating can only be in the range 1 - 10", Toast.LENGTH_SHORT).show();
+                Toaster("Rating can only be in the range 1 - 10");
                 et_rating.getText().clear();
                 proceedToInsert = false;
             }
@@ -66,15 +69,19 @@ public class RegisterMovie extends AppCompatActivity {
             proceedToInsert = false;
         }
 
-
+        // if any of the string editTexts are empty
         if (title.isEmpty() || director.isEmpty() || actors.isEmpty() || review.isEmpty() || et_year.getText().toString().isEmpty() || et_rating.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Please make sure all fields are entered!", Toast.LENGTH_SHORT).show();
+            Toaster("Please make sure all fields are entered!");
         } else if (!proceedToInsert) {
-
+            //do nothing Toasts have been handled separately
         } else {
-            dbHelper.insertData(title, year, director, actors, rating, review);
-            Toast.makeText(this, title + " ( " + year + " )" + " has been added successfully!", Toast.LENGTH_SHORT).show();
+            dbHelper.insertData(title, year, director, actors, rating, review); //insert data into db
+            Toaster(title + " ( " + year + " )" + " has been added successfully!");
         }
     }
 
+    // Toast method
+    public void Toaster(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
 }
