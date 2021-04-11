@@ -43,16 +43,13 @@ public class DisplayMovie extends AppCompatActivity {
 
         while (data.moveToNext()) { //while has next line of data
             //loop through values from the database in column then add it to the ArrayList
-            dataList.add(data.getString(1));
+            dataList.add(data.getString(1)); //add titles
         }
 
         //create the list adapter and set the adapter
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, dataList);
         listView.setAdapter(adapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); //checkbox setting
-//        for(int i = 0; i < adapter.getCount(); i++){
-//            listView.setItemChecked(i, true);
-//        }
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); //checkbox setting by default all not checked
 
     }
 

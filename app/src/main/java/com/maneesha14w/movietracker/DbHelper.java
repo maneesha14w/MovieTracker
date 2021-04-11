@@ -71,7 +71,7 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
     // method that returns all data for listview
     public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " +COLUMN_TITLE;
+        String query = "SELECT * FROM " +TABLE_NAME+ " ORDER BY " +COLUMN_TITLE;
         return db.rawQuery(query, null);
     }
 
@@ -90,5 +90,11 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
         Log.d(TAG, "updateFavorite: query: " + query);
         Log.d(TAG, "updateFavorite: Setting id to: "+ id);
         db.execSQL(query);
+    }
+
+    public Cursor getAllFavorites() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " +TABLE_NAME+ " WHERE " +COLUMN_FAVORITE+ " = '" +1+ "'";
+        return db.rawQuery(query, null);
     }
 }
