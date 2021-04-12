@@ -2,6 +2,7 @@ package com.maneesha14w.movietracker;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -115,11 +116,13 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
     }
 
     public void columnUpdater(int id, String name, String columnToBeChanged, String newValue) {
+        boolean isInt = false;
         String keyPhrase;
         SQLiteDatabase db = this.getWritableDatabase();
         switch (columnToBeChanged) {
             case "year":
                 keyPhrase = COLUMN_YEAR;
+                isInt = true;
                 break;
             case "director":
                 keyPhrase = COLUMN_DIRECTOR;
@@ -130,12 +133,27 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
             case "review":
                 keyPhrase = COLUMN_REVIEW;
                 break;
+            case "rating":
+                keyPhrase = COLUMN_RATING;
+                isInt = true;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + columnToBeChanged);
         }
 
-        String query = "UPDATE " + TABLE_NAME + " SET " + keyPhrase + " = '" + newValue + "' WHERE " + COLUMN_ID + " = '" + id +
-                "' AND " + COLUMN_TITLE + " = '" + name + "'";
-        db.execSQL(query);
+
+        if (isInt) {
+            int newIntValue = Integer.parseInt(newValue);
+            String query = "UPDATE " + TABLE_NAME + " SET " + keyPhrase + " = '" + newIntValue + "' WHERE " + COLUMN_ID + " = '" + id +
+                    "' AND " + COLUMN_TITLE + " = '" + name + "'";
+            db.execSQL(query);
+        }
+        else {
+            String query = "UPDATE " + TABLE_NAME + " SET " + keyPhrase + " = '" + newValue + "' WHERE " + COLUMN_ID + " = '" + id +
+                    "' AND " + COLUMN_TITLE + " = '" + name + "'";
+            db.execSQL(query);
+        }
+
+
     }
 }
