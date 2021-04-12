@@ -23,8 +23,8 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
     protected static final String COLUMN_ACTORS = "actors";
     protected static final String COLUMN_RATING = "rating";
     protected static final String COLUMN_REVIEW = "review";
-    protected static final String COLUMN_FAVORITE= "favorite";
-    private static final String TAG = "DB_HELPER" ;
+    protected static final String COLUMN_FAVORITE = "favorite";
+    private static final String TAG = "DB_HELPER";
 
     // constructor
     public DbHelper(@Nullable Context context) {
@@ -35,7 +35,7 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
-                "CREATE TABLE " +TABLE_NAME+
+                "CREATE TABLE " + TABLE_NAME +
                         "(_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, year INTEGER, director TEXT, actors TEXT, rating INTEGER, review TEXT, favorite BOOL)");
     }
 
@@ -71,39 +71,71 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
     // method that returns all data for listview
     public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " +TABLE_NAME+ " ORDER BY " +COLUMN_TITLE;
+        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUMN_TITLE;
         return db.rawQuery(query, null);
     }
 
     //returns id of movie title
     public Cursor getId(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " +COLUMN_ID+ " FROM " +TABLE_NAME+ " WHERE " +COLUMN_TITLE+ " = '" +name.trim()+ "'";
+        String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_TITLE + " = '" + name.trim() + "'";
         return db.rawQuery(query, null);
     }
 
     //edits the favorites column of the movie with id which are passed as params
     public void addToFavorite(int id, String name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "UPDATE " +TABLE_NAME+ " SET " + COLUMN_FAVORITE + " = '" + 1 + "' WHERE " +COLUMN_ID+ " = '" +id+
-                "' AND " +COLUMN_TITLE+ " = '" +name+ "'";
+        String query = "UPDATE " + TABLE_NAME + " SET " + COLUMN_FAVORITE + " = '" + 1 + "' WHERE " + COLUMN_ID + " = '" + id +
+                "' AND " + COLUMN_TITLE + " = '" + name + "'";
         Log.d(TAG, "updateFavorite: query: " + query);
-        Log.d(TAG, "updateFavorite: Setting id to: "+ id);
+        Log.d(TAG, "updateFavorite: Setting id to: " + id);
         db.execSQL(query);
     }
 
     public Cursor getAllFavorites() {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " +TABLE_NAME+ " WHERE " +COLUMN_FAVORITE+ " = '" +1+ "'";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_FAVORITE + " = '" + 1 + "'";
         return db.rawQuery(query, null);
     }
 
     public void removeFromFavorite(int id, String name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "UPDATE " +TABLE_NAME+ " SET " + COLUMN_FAVORITE + " = '" + 0 + "' WHERE " +COLUMN_ID+ " = '" +id+
-                "' AND " +COLUMN_TITLE+ " = '" +name+ "' AND " + COLUMN_FAVORITE+ " = '" +1+ "'";
+        String query = "UPDATE " + TABLE_NAME + " SET " + COLUMN_FAVORITE + " = '" + 0 + "' WHERE " + COLUMN_ID + " = '" + id +
+                "' AND " + COLUMN_TITLE + " = '" + name + "' AND " + COLUMN_FAVORITE + " = '" + 1 + "'";
         Log.d(TAG, "removeFavorite: query: " + query);
-        Log.d(TAG, "removeFavorite: Setting id to: "+ id);
+        Log.d(TAG, "removeFavorite: Setting id to: " + id);
+        db.execSQL(query);
+    }
+
+    public Cursor getMovieDetails(int id, String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = '" + id + "' AND " + COLUMN_TITLE + " = '" + name + "'";
+        Log.d(TAG, "getMovieDetails: "+ query);
+        return db.rawQuery(query, null);
+    }
+
+    public void columnUpdater(int id, String name, String columnToBeChanged, String newValue) {
+        String keyPhrase;
+        SQLiteDatabase db = this.getWritableDatabase();
+        switch (columnToBeChanged) {
+            case "year":
+                keyPhrase = COLUMN_YEAR;
+                break;
+            case "director":
+                keyPhrase = COLUMN_DIRECTOR;
+                break;
+            case "actors":
+                keyPhrase = COLUMN_ACTORS;
+                break;
+            case "review":
+                keyPhrase = COLUMN_REVIEW;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + columnToBeChanged);
+        }
+
+        String query = "UPDATE " + TABLE_NAME + " SET " + keyPhrase + " = '" + newValue + "' WHERE " + COLUMN_ID + " = '" + id +
+                "' AND " + COLUMN_TITLE + " = '" + name + "'";
         db.execSQL(query);
     }
 }
