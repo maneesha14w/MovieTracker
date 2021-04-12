@@ -9,39 +9,52 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieTracker">
-        <activity android:name=".Search"
+        <activity
+            android:name=".MovieInfo"
+            android:parentActivityName=".EditMovies">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".EditMovies" />
+        </activity>
+
+        <activity
+            android:name=".Search"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".Ratings"
+        <activity
+            android:name=".Ratings"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".EditMovies"
+        <activity
+            android:name=".EditMovies"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".Favorites"
+        <activity
+            android:name=".Favorites"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".DisplayMovie"
+        <activity
+            android:name=".DisplayMovie"
             android:parentActivityName=".MainActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <activity
