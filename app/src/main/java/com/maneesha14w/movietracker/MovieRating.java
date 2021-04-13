@@ -1,8 +1,12 @@
 package com.maneesha14w.movietracker;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +27,8 @@ import java.net.URL;
 public class MovieRating extends AppCompatActivity {
     private static final String TAG = "MOVIE_RATING";
     private TextView movieTitle, tv_ratingTitle, tv_ratingValue;
-
+    private Activity activity;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,7 @@ public class MovieRating extends AppCompatActivity {
         movieTitle = findViewById(R.id.tv_movieTitleRating);
         tv_ratingTitle = findViewById(R.id.tv_ratingTitle);
         tv_ratingValue = findViewById(R.id.tv_ratingValue);
+        loadDialog();
 
         Intent receivedIntent = getIntent();
         String title = receivedIntent.getStringExtra("title");
@@ -41,10 +47,26 @@ public class MovieRating extends AppCompatActivity {
 
     }
 
+    private void loadDialog() {
+        activity = MovieRating.this;
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        LayoutInflater inflater = activity.getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.loading_box, null));
+        builder.setCancelable(false);
+
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void dialogDismiss() {
+        alertDialog.dismiss();
+    }
+
     //thread class
     class NetworkThread implements Runnable {
-        private String baseUrl = "https://imdb-api.com/en/API/";
-        private String apiKey = "/k_gg6jw7wv/";
+        private final String baseUrl = "https://imdb-api.com/en/API/";
+        private final String apiKey = "/k_gg6jw7wv/";
         private String title;
 
         NetworkThread(String title) {
@@ -59,9 +81,9 @@ public class MovieRating extends AppCompatActivity {
             try {
                 doTitleOperation(query);
             } catch (IOException e) {
-                Log.d(TAG, "run: ");;
-            }
+                Log.d(TAG, "run: ");
 
+            }
 
 //            runOnUiThread(() -> ))
 
@@ -70,10 +92,9 @@ public class MovieRating extends AppCompatActivity {
 
         private void doTitleOperation(String query) throws IOException {
             JSONObject jsonObj = getJson(query);
-            if (jsonObj == null){
+            if (jsonObj == null) {
                 runOnUiThread(() -> Toaster("Json is null."));
-            }
-            else {
+            } else {
                 try {
                     String str = jsonObj.getString("results");
                     JSONArray array = new JSONArray(str);
@@ -84,9 +105,8 @@ public class MovieRating extends AppCompatActivity {
                     title = resultObj.getString("title");
                     runOnUiThread(() -> movieTitle.setText(title));
                     doRatingOperation(id);
-                }
-                catch (JSONException e) {
-                    Log.d(TAG, "doOperation: Failed!" );
+                } catch (JSONException e) {
+                    Log.d(TAG, "doOperation: Failed!");
                 }
             }
         }
@@ -95,19 +115,18 @@ public class MovieRating extends AppCompatActivity {
         private void doRatingOperation(String id) throws IOException {
             String query = baseUrl + "Ratings" + apiKey + id;
             JSONObject jsonObj = getJson(query);
-            if (jsonObj == null){
+            if (jsonObj == null) {
                 runOnUiThread(() -> Toaster("Json is null."));
-            }
-            else {
+            } else {
                 try {
                     String str = jsonObj.getString("imDb");
                     runOnUiThread(() -> {
                         tv_ratingTitle.setVisibility(View.VISIBLE);
                         tv_ratingValue.setText(str);
+                        dialogDismiss();
                     });
-                }
-                catch (Exception e) {
-                    Log.d(TAG, "doOperation: Failed!" );
+                } catch (Exception e) {
+                    Log.d(TAG, "doOperation: Failed!");
                 }
             }
 
