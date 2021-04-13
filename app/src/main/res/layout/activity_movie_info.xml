@@ -13,6 +13,8 @@
         android:layout_marginTop="40dp"
         android:fontFamily="@font/rubik_bold"
         android:gravity="center_horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:text="@string/title"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -161,7 +163,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_weight="1"
         android:fontFamily="@font/rubik_bold"
         android:text="@string/ratingTv"
@@ -175,17 +177,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginTop="40dp"
         android:isIndicator="false"
         android:numStars="10"
         android:progressTint="@color/yellow"
-        android:scaleX=".9"
-        android:scaleY=".9"
+        android:scaleX=".7"
+        android:scaleY=".7"
         android:secondaryProgressTint="@color/yellow"
         android:stepSize="1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_ratingPointer"
+        app:layout_constraintTop_toBottomOf="@+id/linear_review" />
+
+
+    <TextView
+        android:id="@+id/tv_favoritePointer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/rubik_bold"
+        android:text="@string/favorite"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_ratingPointer" />
 
@@ -193,12 +207,40 @@
         android:id="@+id/btn_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="17dp"
         android:onClick="updateBtnClicked"
         android:text="@string/update"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.465"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+        app:layout_constraintTop_toBottomOf="@+id/rg_favorite" />
+
+    <RadioGroup
+        android:id="@+id/rg_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_favoritePointer"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar">
+
+        <RadioButton
+            android:id="@+id/rb_yes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/karla"
+            android:textSize="18sp"
+            android:text="@string/yes" />
+
+        <RadioButton
+            android:id="@+id/rb_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/karla"
+            android:textSize="18sp"
+            android:text="@string/no" />
+    </RadioGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

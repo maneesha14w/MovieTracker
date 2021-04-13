@@ -144,6 +144,10 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
                 keyPhrase = COLUMN_RATING;
                 isInt = true;
                 break;
+            case "favorite":
+                keyPhrase = COLUMN_FAVORITE;
+                isInt = true;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + columnToBeChanged);
         }

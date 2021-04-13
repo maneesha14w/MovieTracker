@@ -31,7 +31,6 @@ import java.net.URL;
 public class MovieRating extends AppCompatActivity {
     private static final String TAG = "MOVIE_RATING";
     private TextView movieTitle, tv_ratingTitle, tv_ratingValue;
-    private Activity activity;
     private String imageUrl;
     private AlertDialog alertDialog;
     private ImageView imgView;
@@ -58,7 +57,7 @@ public class MovieRating extends AppCompatActivity {
     }
 
     private void loadDialog() {
-        activity = MovieRating.this;
+        Activity activity = MovieRating.this;
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -152,11 +151,10 @@ public class MovieRating extends AppCompatActivity {
                 URL url = new URL(imageUrl);
                 Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                 imgView.setImageBitmap(bmp);
-            } catch (MalformedURLException e) {
-                Log.d(TAG, "setImage: "+ e.getStackTrace());
-            } catch (IOException e) {
-                Log.d(TAG, "setImage: " + e.getStackTrace());
+            } catch (Exception e) {
+                runOnUiThread(()-> Toaster("Error with Image."));
             }
+
             dialogDismiss();
         }
 
