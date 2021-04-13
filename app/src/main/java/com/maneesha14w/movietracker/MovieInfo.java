@@ -65,26 +65,31 @@ public class MovieInfo extends AppCompatActivity {
         String actors = et_actorsInfo.getText().toString().trim();
         String review = et_reviewInfo.getText().toString().trim();
         int rating = (int) ratingBar.getRating();
+        boolean noError = true;
 
         if (year.isEmpty() || director.isEmpty() || actors.isEmpty() || review.isEmpty()) {
             Toaster("Please make sure all fields are entered!");
-        }
-
-        try {
-            if (Integer.parseInt(year) < 1895) {
-                Toaster("Movie cannot be made before the year 1895");
-                et_yearInfo.getText().clear();
+            noError = false;
+        } else {
+            try {
+                if (Integer.parseInt(year) < 1895) {
+                    Toaster("Movie cannot be made before the year 1895");
+                    et_yearInfo.getText().clear();
+                }
+            } catch (Exception e) {
+                Toaster("Year should be a number.");
+                noError = false;
             }
         }
-        catch (Exception e){
-            Toaster("Year should be a number.");
+
+        if (noError){
+            dbHelper.columnUpdater(id, title, "year", year);
+            dbHelper.columnUpdater(id, title, "director", director);
+            dbHelper.columnUpdater(id, title, "actors", actors);
+            dbHelper.columnUpdater(id, title, "review", review);
+            dbHelper.columnUpdater(id, title, "rating", String.valueOf(rating));
         }
 
-        dbHelper.columnUpdater(id, title, "year", year);
-        dbHelper.columnUpdater(id, title, "director", director);
-        dbHelper.columnUpdater(id, title, "actors", actors);
-        dbHelper.columnUpdater(id, title, "review", review);
-        dbHelper.columnUpdater(id, title,"rating", String.valueOf(rating));
 
         Toaster(title + " has been updated!");
     }

@@ -25,6 +25,10 @@
     <string name="your_reviewTv">Your Review</string>
     <string name="ratingTv">Rating :</string>
     <string name="update">Update</string>
+    <string name="lookup">Lookup</string>
+    <string name="result">Result</string>
+    <string name="find_movie">Find Movie</string>
+    <string name="your_movies">Your Movies</string>
 
     <string-array name="rating_array">
         <item>Rating</item>

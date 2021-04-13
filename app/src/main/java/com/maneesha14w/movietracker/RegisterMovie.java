@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ public class RegisterMovie extends AppCompatActivity {
     private EditText et_title, et_year, et_director, et_actors, et_review, et_rating;
     //dbHelper obj
     private DbHelper dbHelper;
+    private Button saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,8 @@ public class RegisterMovie extends AppCompatActivity {
         et_actors = findViewById(R.id.et_actors);
         et_review = findViewById(R.id.et_review);
         et_rating = findViewById(R.id.et_rating);
+        saveButton = findViewById(R.id.btn_save);
+
     }
 
     //save btn click method
@@ -77,6 +81,7 @@ public class RegisterMovie extends AppCompatActivity {
         } else {
             dbHelper.insertData(title, year, director, actors, rating, review); //insert data into db
             Toaster(title + " ( " + year + " )" + " has been added successfully!");
+            saveButton.setEnabled(false);
         }
     }
 

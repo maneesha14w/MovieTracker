@@ -38,7 +38,7 @@ public class DisplayMovie extends AppCompatActivity {
     private void fillListView() {
 
         // get data and append to an datList arrayList
-        Cursor data = dbHelper.getAllData();
+        Cursor data = dbHelper.getAllNonFavorites();
         dataList = new ArrayList<>();
 
         while (data.moveToNext()) { //while has next line of data

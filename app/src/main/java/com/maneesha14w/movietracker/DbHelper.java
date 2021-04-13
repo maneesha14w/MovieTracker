@@ -83,6 +83,19 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
         return db.rawQuery(query, null);
     }
 
+
+    public Cursor getAllFavorites() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_FAVORITE + " = '" + 1 + "'";
+        return db.rawQuery(query, null);
+    }
+
+    public Cursor getAllNonFavorites() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_FAVORITE + " = '" + 0 + "'";
+        return db.rawQuery(query, null);
+    }
+
     //edits the favorites column of the movie with id which are passed as params
     public void addToFavorite(int id, String name) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -91,12 +104,6 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
         Log.d(TAG, "updateFavorite: query: " + query);
         Log.d(TAG, "updateFavorite: Setting id to: " + id);
         db.execSQL(query);
-    }
-
-    public Cursor getAllFavorites() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_FAVORITE + " = '" + 1 + "'";
-        return db.rawQuery(query, null);
     }
 
     public void removeFromFavorite(int id, String name) {
