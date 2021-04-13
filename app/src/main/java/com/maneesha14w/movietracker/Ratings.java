@@ -2,6 +2,7 @@ package com.maneesha14w.movietracker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 
 public class Ratings extends AppCompatActivity {
 
-    private String baseUrl = "https://imdb-api.com/en/API/k_gg6jw7wv/";
     private String expression;
     private DbHelper dbHelper;
     private RadioGroup rGroup;
@@ -51,9 +51,14 @@ public class Ratings extends AppCompatActivity {
         RadioButton selectedBtn = findViewById(id);
 
         String title = selectedBtn.getText().toString();
+        Intent intent = new Intent(Ratings.this, MovieRating.class);
+        intent.putExtra("title", title);
+        startActivity(intent);
     }
 
     public void Toaster(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
+
 }
