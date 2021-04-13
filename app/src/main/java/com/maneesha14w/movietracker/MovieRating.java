@@ -2,12 +2,15 @@ package com.maneesha14w.movietracker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,22 +25,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MovieRating extends AppCompatActivity {
     private static final String TAG = "MOVIE_RATING";
     private TextView movieTitle, tv_ratingTitle, tv_ratingValue;
     private Activity activity;
+    private String imageUrl;
     private AlertDialog alertDialog;
+    private ImageView imgView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_rating);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         movieTitle = findViewById(R.id.tv_movieTitleRating);
         tv_ratingTitle = findViewById(R.id.tv_ratingTitle);
         tv_ratingValue = findViewById(R.id.tv_ratingValue);
+        imgView = findViewById(R.id.iv_moviePoster);
         loadDialog();
 
         Intent receivedIntent = getIntent();
@@ -65,6 +75,8 @@ public class MovieRating extends AppCompatActivity {
 
     //thread class
     class NetworkThread implements Runnable {
+
+
         private final String baseUrl = "https://imdb-api.com/en/API/";
         private final String apiKey = "/k_gg6jw7wv/";
         private String title;
@@ -102,6 +114,7 @@ public class MovieRating extends AppCompatActivity {
                     String id, title;
                     JSONObject resultObj = array.getJSONObject(0);
                     id = resultObj.getString("id");
+                    imageUrl = resultObj.getString("image");
                     title = resultObj.getString("title");
                     runOnUiThread(() -> movieTitle.setText(title));
                     doRatingOperation(id);
@@ -123,7 +136,8 @@ public class MovieRating extends AppCompatActivity {
                     runOnUiThread(() -> {
                         tv_ratingTitle.setVisibility(View.VISIBLE);
                         tv_ratingValue.setText(str);
-                        dialogDismiss();
+                        setImage();
+
                     });
                 } catch (Exception e) {
                     Log.d(TAG, "doOperation: Failed!");
@@ -131,6 +145,22 @@ public class MovieRating extends AppCompatActivity {
             }
 
         }
+
+
+        private void setImage() {
+            try {
+                URL url = new URL(imageUrl);
+                Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                imgView.setImageBitmap(bmp);
+            } catch (MalformedURLException e) {
+                Log.d(TAG, "setImage: "+ e.getStackTrace());
+            } catch (IOException e) {
+                Log.d(TAG, "setImage: " + e.getStackTrace());
+            }
+            dialogDismiss();
+        }
+
+
 
 
         private JSONObject getJson(String query) throws IOException {
@@ -164,7 +194,6 @@ public class MovieRating extends AppCompatActivity {
         }
 
     }
-
 
     private void Toaster(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

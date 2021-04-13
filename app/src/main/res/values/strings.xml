@@ -30,6 +30,7 @@
     <string name="find_movie">Find Movie</string>
     <string name="your_movies">Your Movies</string>
     <string name="loading">Loading</string>
+    <string name="movie_poster">Movie Poster</string>
 
     <string-array name="rating_array">
         <item>Rating</item>
