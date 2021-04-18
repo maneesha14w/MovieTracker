@@ -31,8 +31,8 @@ public class Favorites extends AppCompatActivity {
 
         listView = findViewById(R.id.lv_favorites);
         dbHelper = new DbHelper(this);
-        deselectedMovieList = new ArrayList<>();
-        reFavoredList = new ArrayList<>();
+        deselectedMovieList = new ArrayList<>(); //deselected movies
+        reFavoredList = new ArrayList<>(); //deselected movies that were reselected
         fillListView();
     }
 
@@ -66,16 +66,16 @@ public class Favorites extends AppCompatActivity {
         SparseBooleanArray isChecked = listView.getCheckedItemPositions();
 
         //vars
-        int i = 0, j = 0, counter = 0;
+        int i = 0, counter = 0;
         String tempString = "";
 
 
-        while (i < isChecked.size()) {
+        while (i < isChecked.size()) { //checkboxes that are checked
             tempString = favoritesList.get(i);
-            if (!isChecked.valueAt(i) && !deselectedMovieList.contains(tempString)) {
+            if (!isChecked.valueAt(i) && !deselectedMovieList.contains(tempString)) { //new value
                 deselectedMovieList.add(tempString);
             }
-            if (isChecked.valueAt(i) && deselectedMovieList.contains(tempString)) {
+            if (isChecked.valueAt(i) && deselectedMovieList.contains(tempString)) { //old value
                 deselectedMovieList.remove(tempString);
                 reFavoredList.add(tempString); //movie has been added back into favourites
             }

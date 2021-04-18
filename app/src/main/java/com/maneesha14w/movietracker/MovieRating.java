@@ -29,6 +29,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MovieRating extends AppCompatActivity {
+    //vars
     private static final String TAG = "MOVIE_RATING";
     private TextView movieTitle, tv_ratingTitle, tv_ratingValue;
     private String imageUrl;
@@ -40,6 +41,7 @@ public class MovieRating extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_rating);
 
+        //strict mode policy overriding
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -49,6 +51,7 @@ public class MovieRating extends AppCompatActivity {
         imgView = findViewById(R.id.iv_moviePoster);
         loadDialog();
 
+        //get title of movie
         Intent receivedIntent = getIntent();
         String title = receivedIntent.getStringExtra("title");
         NetworkThread netThread = new NetworkThread(title);
@@ -56,29 +59,29 @@ public class MovieRating extends AppCompatActivity {
 
     }
 
-    private void loadDialog() {
+    private void loadDialog() { //the loading menu
         Activity activity = MovieRating.this;
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
+        //inflation
         LayoutInflater inflater = activity.getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.loading_box, null));
         builder.setCancelable(false);
 
-        alertDialog = builder.create();
+        alertDialog = builder.create(); //creation
         alertDialog.show();
     }
 
     private void dialogDismiss() {
         alertDialog.dismiss();
-    }
+    } //dismiss load screen animation
 
-    //thread class
+    //thread class that handles network
     class NetworkThread implements Runnable {
 
-
-        private final String baseUrl = "https://imdb-api.com/en/API/";
-        private final String apiKey = "/k_gg6jw7wv/";
-        private String title;
+        private final String baseUrl = "https://imdb-api.com/en/API/"; //base url
+        private final String apiKey = "/k_gg6jw7wv/"; //api key
+        private String title; //title set in constructor
 
         NetworkThread(String title) {
             this.title = title;
@@ -87,33 +90,30 @@ public class MovieRating extends AppCompatActivity {
 
         @Override
         public void run() {
-            String query = baseUrl + "Search" + apiKey + title;
+            String query = baseUrl + "Search" + apiKey + title; //query constructor
 
             try {
-                doTitleOperation(query);
+                doTitleOperation(query); //set title and image
             } catch (IOException e) {
                 Log.d(TAG, "run: ");
 
             }
-
-//            runOnUiThread(() -> ))
-
         }
 
-
+        //get set title and image
         private void doTitleOperation(String query) throws IOException {
             JSONObject jsonObj = getJson(query);
-            if (jsonObj == null) {
+            if (jsonObj == null) { //error
                 runOnUiThread(() -> Toaster("Json is null."));
             } else {
                 try {
-                    String str = jsonObj.getString("results");
-                    JSONArray array = new JSONArray(str);
+                    String str = jsonObj.getString("results"); //results is an array
+                    JSONArray array = new JSONArray(str); //construct array from str
 
                     String id, title;
-                    JSONObject resultObj = array.getJSONObject(0);
-                    id = resultObj.getString("id");
-                    imageUrl = resultObj.getString("image");
+                    JSONObject resultObj = array.getJSONObject(0); //get object at index 0 first item in search
+                    id = resultObj.getString("id"); //get identifier id value for rating
+                    imageUrl = resultObj.getString("image"); //get image url as well since already here
                     title = resultObj.getString("title");
                     runOnUiThread(() -> movieTitle.setText(title));
                     doRatingOperation(id);
@@ -123,7 +123,7 @@ public class MovieRating extends AppCompatActivity {
             }
         }
 
-
+        //get rating from id
         private void doRatingOperation(String id) throws IOException {
             String query = baseUrl + "Ratings" + apiKey + id;
             JSONObject jsonObj = getJson(query);
@@ -146,7 +146,7 @@ public class MovieRating extends AppCompatActivity {
         }
 
 
-        private void setImage() {
+        private void setImage() { //set image bitmap
             try {
                 URL url = new URL(imageUrl);
                 Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
@@ -160,13 +160,13 @@ public class MovieRating extends AppCompatActivity {
 
 
 
-
+        // methd that handles queries via the internet
         private JSONObject getJson(String query) throws IOException {
             StringBuilder result = new StringBuilder();
             HttpURLConnection connection = null;
             InputStream is = null;
 
-            try {
+            try { //malformed url or url not found
                 URL reqUrl = new URL(query);
                 connection = (HttpURLConnection) reqUrl.openConnection();
                 connection.connect();
@@ -183,10 +183,9 @@ public class MovieRating extends AppCompatActivity {
                 return new JSONObject(result.toString());
             } catch (Exception e) {
                 runOnUiThread(() -> Toaster("Movie Not Found!"));
-            } finally {
+            } finally { //closing
                 connection.disconnect();
                 is.close();
-
             }
             return null;
         }

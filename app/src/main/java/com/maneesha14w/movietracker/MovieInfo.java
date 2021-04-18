@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MovieInfo extends AppCompatActivity {
 
+    //vars
     private static final String TAG = "MOVIE_INFO";
     private DbHelper dbHelper; // dbHelper obj
     private EditText et_yearInfo, et_directorInfo, et_actorsInfo, et_reviewInfo;
@@ -33,6 +34,7 @@ public class MovieInfo extends AppCompatActivity {
 
         dbHelper = new DbHelper(this);
 
+        //find views
         et_yearInfo = findViewById(R.id.et_yearInfo);
         et_directorInfo = findViewById(R.id.et_directorInfo);
         et_actorsInfo = findViewById(R.id.et_actorsInfo);
@@ -43,6 +45,7 @@ public class MovieInfo extends AppCompatActivity {
         rb_no = findViewById(R.id.rb_no);
         rb_yes = findViewById(R.id.rb_yes);
 
+        //get id and title from edit movie activity
         Intent passedIntent = getIntent();
         id = passedIntent.getIntExtra("id", -1);
         title = passedIntent.getStringExtra("title");
@@ -51,6 +54,7 @@ public class MovieInfo extends AppCompatActivity {
         dataLoader();
     }
 
+    // loads data for a certain movie and fills page
     private void dataLoader() {
         Cursor data = dbHelper.getMovieDetails(id, title);
 
@@ -61,10 +65,9 @@ public class MovieInfo extends AppCompatActivity {
             et_actorsInfo.setText(data.getString(4)); // get actors
             ratingBar.setRating(data.getFloat(5)); //get rating
             et_reviewInfo.setText(data.getString(6)); //get review
-            if (data.getInt(7) == 1) {
+            if (data.getInt(7) == 1) { //get fravorite
                 rb_yes.setChecked(true);
-            }
-            else {
+            } else {
                 rb_no.setChecked(true);
             }
         }
@@ -78,21 +81,22 @@ public class MovieInfo extends AppCompatActivity {
         String director = et_directorInfo.getText().toString().trim();
         String actors = et_actorsInfo.getText().toString().trim();
         String review = et_reviewInfo.getText().toString().trim();
-        String isFavoriteStr="";
+        String isFavoriteStr = "";
         int rating = (int) ratingBar.getRating();
         boolean noError = true;
 
+        //if all editable fields are empty
         if (year.isEmpty() || director.isEmpty() || actors.isEmpty() || review.isEmpty()) {
             Toaster("Please make sure all fields are entered!");
             noError = false;
         } else {
             try {
-                isFavoriteStr = ((RadioButton)findViewById(rGroup.getCheckedRadioButtonId())).getText().toString().toLowerCase();
+                //get selected radio btn and based on that set the value of isFavorite
+                isFavoriteStr = ((RadioButton) findViewById(rGroup.getCheckedRadioButtonId())).getText().toString().toLowerCase();
 
                 if (isFavoriteStr.equals("yes")) {
                     isFavorite = 1;
-                }
-                else {
+                } else {
                     isFavorite = 0;
                 }
                 if (Integer.parseInt(year) < 1895) {
@@ -100,28 +104,27 @@ public class MovieInfo extends AppCompatActivity {
                     noError = false;
                     et_yearInfo.getText().clear();
                 }
-            } catch (Exception e) {
+            } catch (Exception e) { //only error can occur is the parse one radio button is always selected
                 Toaster("Year should be a number.");
                 noError = false;
             }
         }
 
-        if (noError){
+        //no error has occured
+        if (noError) {
             dbHelper.columnUpdater(id, title, "year", year);
             dbHelper.columnUpdater(id, title, "director", director);
             dbHelper.columnUpdater(id, title, "actors", actors);
             dbHelper.columnUpdater(id, title, "review", review);
             dbHelper.columnUpdater(id, title, "rating", String.valueOf(rating));
-            dbHelper.columnUpdater(id, title,"favorite", String.valueOf(isFavorite));
+            dbHelper.columnUpdater(id, title, "favorite", String.valueOf(isFavorite));
 
             Toaster(title + " has been updated!");
         }
 
-
-
     }
 
-
+    //toaster
     public void Toaster(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }

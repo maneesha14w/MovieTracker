@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class Ratings extends AppCompatActivity {
 
+    //vars
     private String expression;
     private DbHelper dbHelper;
     private RadioGroup rGroup;
@@ -26,15 +27,16 @@ public class Ratings extends AppCompatActivity {
         setRadioButtons();
     }
 
+    //set all movie names as radio buttons
     private void setRadioButtons() {
         ArrayList<String> movieNames = new ArrayList<>();
         Cursor data = dbHelper.getAllData();
 
-        while (data.moveToNext()) {
+        while (data.moveToNext()) { //all movie names in list
             movieNames.add(data.getString(1));
         }
 
-        final RadioButton[] rBtns = new RadioButton[movieNames.size()];
+        final RadioButton[] rBtns = new RadioButton[movieNames.size()]; // radio btn generator
         rGroup = findViewById(R.id.radioGroup);
 
         for (int i = 0; i < movieNames.size(); i++) {
@@ -50,6 +52,7 @@ public class Ratings extends AppCompatActivity {
         int id = rGroup.getCheckedRadioButtonId();
         RadioButton selectedBtn = findViewById(id);
 
+        //pass name of movie new activity
         String title = selectedBtn.getText().toString();
         Intent intent = new Intent(Ratings.this, MovieRating.class);
         intent.putExtra("title", title);

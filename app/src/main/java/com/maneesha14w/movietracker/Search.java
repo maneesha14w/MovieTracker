@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Search extends AppCompatActivity {
+    //vars
     private EditText et_search;
     private DbHelper dbHelper;
     private ListView lv_result;
@@ -33,7 +34,7 @@ public class Search extends AppCompatActivity {
         tv_result = findViewById(R.id.tv_result);
         dbHelper = new DbHelper(this);
         results = new ArrayList<>();
-        alreadysearched = new ArrayList<>();
+        alreadysearched = new ArrayList<>(); //if user keeps repeatedly pressing search
     }
 
     public void searchQuery(View view) {
@@ -53,7 +54,7 @@ public class Search extends AppCompatActivity {
             if (data.getCount() == 0) {
                 Toaster("No such word in the database");
             }
-            else {
+            else { //search
                 while (data.moveToNext()) {
                     if (data.getString(1).toLowerCase().contains(searchKeyword)) {
                         results.add(data.getString(1) + " directed by " + data.getString(3) + " ("+ data.getInt(2)+") ");

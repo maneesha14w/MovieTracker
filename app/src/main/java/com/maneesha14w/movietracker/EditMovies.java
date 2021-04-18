@@ -57,6 +57,7 @@ public class EditMovies extends AppCompatActivity {
                 while (data.moveToNext()) { //while has next line of data
                     itemId = data.getInt(0); //get id
                     if (itemId > -1) {
+                        //new activity which shows all info about a movie
                         Intent intent = new Intent(EditMovies.this, MovieInfo.class);
                         intent.putExtra("id", itemId);
                         intent.putExtra("title", title);

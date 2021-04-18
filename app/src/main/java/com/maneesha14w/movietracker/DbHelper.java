@@ -2,7 +2,6 @@ package com.maneesha14w.movietracker;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -84,12 +83,14 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
     }
 
 
+    //get all favorites
     public Cursor getAllFavorites() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_FAVORITE + " = '" + 1 + "'";
         return db.rawQuery(query, null);
     }
 
+    //get all non favorites
     public Cursor getAllNonFavorites() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_FAVORITE + " = '" + 0 + "'";
@@ -106,6 +107,7 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
         db.execSQL(query);
     }
 
+    //remove from favorites
     public void removeFromFavorite(int id, String name) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "UPDATE " + TABLE_NAME + " SET " + COLUMN_FAVORITE + " = '" + 0 + "' WHERE " + COLUMN_ID + " = '" + id +
@@ -115,13 +117,15 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
         db.execSQL(query);
     }
 
+    //get all details of a movie
     public Cursor getMovieDetails(int id, String name) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = '" + id + "' AND " + COLUMN_TITLE + " = '" + name + "'";
-        Log.d(TAG, "getMovieDetails: "+ query);
+        Log.d(TAG, "getMovieDetails: " + query);
         return db.rawQuery(query, null);
     }
 
+    // column updater that checks the param passed to verify what value to update
     public void columnUpdater(int id, String name, String columnToBeChanged, String newValue) {
         boolean isInt = false;
         String keyPhrase;
@@ -152,14 +156,13 @@ public class DbHelper extends SQLiteOpenHelper { //class that extends SQLiteOpen
                 throw new IllegalStateException("Unexpected value: " + columnToBeChanged);
         }
 
-
+        // for uniformity
         if (isInt) {
             int newIntValue = Integer.parseInt(newValue);
             String query = "UPDATE " + TABLE_NAME + " SET " + keyPhrase + " = '" + newIntValue + "' WHERE " + COLUMN_ID + " = '" + id +
                     "' AND " + COLUMN_TITLE + " = '" + name + "'";
             db.execSQL(query);
-        }
-        else {
+        } else {
             String query = "UPDATE " + TABLE_NAME + " SET " + keyPhrase + " = '" + newValue + "' WHERE " + COLUMN_ID + " = '" + id +
                     "' AND " + COLUMN_TITLE + " = '" + name + "'";
             db.execSQL(query);
